@@ -4,10 +4,15 @@ from django.conf.urls.static import static
 from helloworld import views
 
 urlpatterns = [
-    url(r'^$', views.HomePageView.as_view()),
-    url(r'^contact/$', views.ContactPageView.as_view()),
-    url(r'^account/$', views.AccountPageView.as_view()),
-    url(r'^login/$', views.LoginPageView.as_view()),
-    url(r'^meds/$', views.MedsPageView.as_view()),
-    url(r'^request/$', views.RequestPageView.as_view()),
+    url(r'^$', views.homePage,name="index"),
+    url(r'^contact/$', views.contactPage,name="contact"),
+    url(r'^account/$', views.accountPage,name="account"),
+    url(r'^login/$', views.loginPage,name="login"),
+    url(r'^register/$', views.registerPage,name="login"),
+    url(r'^meds/$', views.medsPage,name="medicamentos"),
+    url(r'^request/$', views.requestPage,name="solicitud"),
+    url(r'^login/iniciar/$',views.login_iniciar,name="iniciar"),
+    url(r'^register/createUser/$',views.createUser, name="Create User"),
+    url(r'^cerrarsesion/$',views.cerrar_session,name="cerrar_session"),
+
 ]

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+        {% load staticfiles %}
+<head>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{% static  "addons/css/styles.css" %}">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+</head>
+<body>
+        <div class="container h-100">
+                <div class="row h-100 justify-content-center align-items-center">
+                    <div class="card" id="login-card">
+                        <div class="card-body">
+                                <h5 class="card-title">Ingresar</h5>
+                                <form action="/register/createUser/" method="POST">
+                                    {% csrf_token %}
+                                      <div class="form-row">
+                                        <div class="col">
+                                          <label for="email">Email</label>
+                                          <input type="text" name="email" class="form-control" id="email" placeholder="Ingresa un email..." required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="rut">Rut</label>
+                                            <input type="text" name="rut" class="form-control" id="rut" placeholder="Ingresa un rut..." required>
+                                        </div>
+                                      </div>
+                                      <div class="form-row">
+                                          <div class="col">
+                                            <label for="name">Nombre completo</label>
+                                            <input type="text" name="name" class="form-control" id="name" placeholder="Ingresa un nombre..." required>
+                                          </div>
+                                          <div class="col">
+                                              <label for="born">Fecha nacimiento</label>
+                                              <input type="date" name="born" max="2001-01-01" id="born" class="form-control" required>
+                                          </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label for="name-input">Numero de teléfono</label>
+                                                <input type="number" name="number" class="form-control" id="name-input" placeholder="Ingresa tu numero de teléfono..." required>
+                                            </div>
+                                            <div class="col">
+                                                <label for="regiones">Region</label>
+                                                <select class="form-control" name="region" id="regiones"></select>
+                                            </div>
+                                          </div>
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <label for="comunas">Comuna</label>
+                                                    <select class="form-control" name="comuna" id="comunas"></select>
+                                                </div>
+                                                <div class="col">
+                                                        <label for="direccion">Dirección</label>
+                                                        <input type="text" name="direccion" class="form-control" id="direccion" placeholder="Ingrese una dirección..." required>
+                                                      </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col">
+                                                  <label for="password">Contraseña</label>
+                                                  <input type="password" class="form-control" name="password" id="password" placeholder="Ingresa una contraseña" required>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="password_repeat">Repetir contraseña</label>
+                                                    <input type="password" class="form-control" name="password2" id="password_repeat" placeholder="Repite la contraseña" required>
+                                                </div>
+                                              </div>
+                                            <div class="row">
+                                              <div class="col">
+                                                  <button type="submit" id="register-btn" class="btn btn-primary" onclick="checkValidations()">Registrarme</button>
+                                              </div>
+                                            </div>
+                        
+                                    </form>  
+                        </div>
+                    </div>
+                  
+                </div>
+              </div>
+
+        
+            <!-- jQuery CDN - Slim version (=without AJAX) -->
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <!-- Popper.JS -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+            <!-- Bootstrap JS -->
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+            <!-- JS Propios -->
+            <script src="{% static  "addons/js/regiones-comunas.js" %}"></script>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#sidebarCollapse').on('click', function () {
+                        $('#sidebar').toggleClass('active');
+                    });
+                });
+            </script>
+</body>
+</html>

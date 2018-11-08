@@ -24,17 +24,22 @@
                     <div class="card" id="login-card">
                         <div class="card-body">
                                 <h5 class="card-title">Ingresar</h5>
-                                <form class="col-12">
+                                <form method="POST" class="form-signin" action="{% url "iniciar" %}">
+                                        {% csrf_token %}
                                         <div class="form-group">
-                                          <label for="inputRut">Rut</label>
-                                          <input type="text" class="form-control" id="inputRut" placeholder="Rut">
-                                        </div>
-                                        <div class="form-group">
-                                          <label for="formGroupExampleInput2">Contraseña</label>
-                                          <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
-                                        </div>
-                                        <a href="/" class="btn btn-primary">Ingresar</a>
-                                      </form>   
+                                                <label for="inputRut">Rut</label>
+                                                <input type="text" name="rut" class="form-control" id="rut" placeholder="Rut">
+                                              </div>
+                                              <div class="form-group">
+                                                <label for="formGroupExampleInput2">Contraseña</label>
+                                                <input type="password" name="contrasenia" class="form-control" id="contrasenia" placeholder="Contraseña">
+                                              </div></br>
+                                      <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesión</button></br>
+                                      <a href="/password/recovery/">¿Olvidaste tu contraseña?</a>
+                                      <p>
+                                          <a href="/register/">¿No tienes una cuenta? ¡Registrate!</a>
+                                      </p>
+                                </form>  
                         </div>
                     </div>
                   
