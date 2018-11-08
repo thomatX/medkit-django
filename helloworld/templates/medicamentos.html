@@ -23,7 +23,7 @@
                 <!-- Sidebar  -->
                 <nav id="sidebar">
                         <div class="sidebar-header">
-                            <h3>Text Logo</h3>
+                                <img src="{% static  "addons/img/logo.png" %}">
                         </div>
             
                         <ul class="list-unstyled components">
@@ -46,9 +46,12 @@
                             <li>
                                 <a href="/cerrarsesion/" id="logoutBtn" class="download">Cerrar sesión</a>
                             </li>
+                            <!--
                             <li>
                                 <a href="/account/" class="article">Mi cuenta</a>
                             </li>
+                            -->
+
                         </ul>
                     </nav>
         
@@ -129,8 +132,9 @@
                           <div class="row">
                                 <div class="form-group col-md-3">
                                         <label for="regiones">Elementos seleccionados</label>
-                                        <select id="comunas" class="form-control">
-                                                <option>Eliminar</option>
+                                        <select disabled id="action" class="form-control">
+                                                <option>Cancelar</option>
+                                                <option>Finalizar</option>
                                                 <option>Modificar</option>
                                                 <option>Desactivar</option>
                                         </select>
@@ -138,6 +142,49 @@
                                   <button type="submit" class="btn btn-primary">Aceptar</button>
 
                           </div>
+                          <div class="line"></div>
+                                <h2>Historial</h2>
+                                <div class="line"></div>
+                    
+                                <table class="table">
+                                        <thead class="thead-light">
+                                          <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Fecha Inicio</th>
+                                            <th scope="col">Fecha Termino</th>
+                                            <th scope="col">Receta</th>
+                                            <th scope="col">Estado</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <th scope="row">1</th>
+                                            <td>Paracetamol</td>
+                                            <td>08-10-2018</td>
+                                            <td>28-10-2018</td>
+                                            <td>Sí</td>
+                                            <td>Cancelado</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">2</th>
+                                            <td>Ibuprofeno</td>
+                                            <td>07-11-2018</td>
+                                            <td>14-12-2018</td>
+                                            <td>No</td>
+                                            <td>Finalizado</td>
+                                          </tr>
+                                          <tr>
+                                            <th scope="row">3</th>
+                                            <td>Trioval</td>
+                                            <td>09-10-2018</td>
+                                            <td>12-03-2019</td>
+                                            <td>Sí</td>
+                                            <td>Rechazado</td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+
                 </div>
             </div>
         
@@ -152,6 +199,18 @@
                 $(document).ready(function () {
                     $('#sidebarCollapse').on('click', function () {
                         $('#sidebar').toggleClass('active');
+                    });
+
+                    
+                    $('input:checkbox').change(function() {
+                        if ($("input:checkbox:checked").length > 0)
+                        {
+                            $('#action').prop('disabled', false);
+                        }
+                        else if ($("input:checkbox:checked").length <= 0)
+                        {
+                            $('#action').prop('disabled', 'disabled');
+                        }
                     });
                 });
             </script>
