@@ -12,6 +12,7 @@
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+    
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,11 +47,9 @@
                             <li>
                                 <a href="/cerrarsesion/" id="logoutBtn" class="download">Cerrar sesión</a>
                             </li>
-                            <!--
                             <li>
                                 <a href="/account/" class="article">Mi cuenta</a>
                             </li>
-                            -->
                         </ul>
                     </nav>
         
@@ -87,24 +86,130 @@
                         </div>
                     </nav>
         
-                    <h2>Collapsible Sidebar Using Bootstrap 4</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        
+                    <h2>Mi cuenta</h2>
                     <div class="line"></div>
-        
-                    <h2>Lorem Ipsum Dolor</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        
+                    <div class="col-md-6">
+                        <form action="/register/editUser/" method="POST">
+                            {% csrf_token %}
+                            {% for x in active_user %}
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputName">Nombre</label>
+                                    <input type="text" class="form-control" name="name" id="inputName" placeholder="Nombre" value="{{ x.nombre }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputEmail">Email</label>
+                                    <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Email" value="{{ x.email }}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inputAddress">Dirección</label>
+                                    <input type="text" class="form-control" name="adress" id="inputAdress" placeholder="1234 Calle" value="{{ x.direccion }}">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inputPhone">Teléfono</label>
+                                    <input type="text" class="form-control" name="phone" id="inputPhone" placeholder="1234 Calle" value="{{ x.numero_telefono }}">
+                                </div>
+                            </div>
+                            <button type="submit" onclick="return validateUser();" id="edit_user_btn" class="btn btn-primary">Editar</button>
+                            {% endfor %}
+                        </form>
+                    </div>
                     <div class="line"></div>
-        
-                    <h2>Lorem Ipsum Dolor</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        
+                    <h2>Mi tarjeta</h2>
                     <div class="line"></div>
-        
-                    <h3>Lorem Ipsum Dolor</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    {% if not credit_card %}
+                    <button type="submit" onclick="$(this).hide(); $('#credit_form').show();" class="btn btn-success">Añadir una tarjeta de crédito &nbsp;<i class="fas fa-plus"></i></button>
+                    <div class="col-md-6">
+                        <form action="/register/creditCard/" method="POST" id="credit_form" style="display:none;">
+                            {% csrf_token %}
+                            {% for x in active_user %}
+                            <script>console.log('{{x.nombre}}')</script>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="cardName">Nombre</label>
+                                        <input type="text" name="cardname" class="form-control" id="cardName" placeholder="Nombre" value="{{ x.nombre }}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail">Numero tarjeta</label>
+                                        <input type="text" name="cardnumber" class="form-control" id="cardNumber" placeholder="9999 9999 9999 9999">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="cardBank">Banco</label>
+                                        <select id="cardBank" name="cardbank" class="form-control">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label for="cardPass">Clave secreta</label>
+                                        <input type="number" name="cardpass" class="form-control" id="cardPass" placeholder="9xx">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="inputPhone">Mes</label>
+                                        <input type="number" name="cardmonth" max="12" class="form-control" id="cardMonth" placeholder="12"></br>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="cardYear">Año</label>
+                                        <input type="number" max="31" name="cardyear" class="form-control" id="cardYear" placeholder="2019"></br>
+                                    </div>
+                                </div>
+                                <button type="submit" onclick="return validateCard();" class="btn btn-success">Guardar</button>
+                            {% endfor %}
+                        </form>
+                    </div>
+                    {% else %}
+                    <div class="col-md-6">
+                        <form action="/register/editCard/" method="POST" id="credit_form">
+                            {% csrf_token %}
+                            {% for y in credit_card %}
+                            <script>console.log('{{y.nombre}}')</script>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="cardName">Nombre</label>
+                                        <input type="text" name="cardname" class="form-control" id="cardName" placeholder="Nombre" value="{{ y.nombre }}">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail">Numero tarjeta</label>
+                                        <input type="text" name="cardnumber" class="form-control" id="cardNumber" placeholder="9999 9999 9999 9999" value="{{ y.numero_tarjeta }}">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="cardBank">Banco</label>
+                                        <select id="cardBank" name="cardbank" class="form-control" value="{{ y.banco }}">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-3">
+                                        <label for="cardPass">Clave secreta</label>
+                                        <input type="number" name="cardpass" class="form-control" id="cardPass" placeholder="9xx" value="{{y.clave_secreta}}">
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="inputPhone">Mes</label>
+                                        <input type="number" name="cardmonth" max="12" class="form-control" id="cardMonth" placeholder="12" value="{{ y.mes }}"></br>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label for="cardYear">Año</label>
+                                        <input type="number" max="31" name="cardyear" class="form-control" id="cardYear" placeholder="19" value="{{ y.year }}"></br>
+                                    </div>
+                                </div>
+                                <button type="submit" onclick="return validateCard();" class="btn btn-primary">Editar</button>
+                            
+                        </form></br>
+                        <button onclick="window.location.href='/delete/cards/{{y.pk}}'" type="submit" class="btn btn-danger">Eliminar</button>
+                        {% endfor %}
+                    </div>    
+                    {% endif %}
+
+
+
+
+                    
                 </div>
             </div>
         
@@ -114,13 +219,23 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
             <!-- Bootstrap JS -->
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-        
+            <!-- JS Propios -->
+            <script src="{% static  "addons/js/regiones-comunas.js" %}"></script>
+            <script src="{% static  "addons/js/credit_card.js" %}"></script>
+            <script src="{% static  "addons/js/user_edit.js" %}"></script>
+
+
+
+            {% for x in active_user %}
             <script type="text/javascript">
                 $(document).ready(function () {
                     $('#sidebarCollapse').on('click', function () {
                         $('#sidebar').toggleClass('active');
                     });
+                $('#regiones').val('{{ x.region }}');
+                $('#comunas').val('{{ x.comuna }}');
                 });
             </script>
+            {% endfor %}
 </body>
 </html>

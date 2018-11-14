@@ -119,3 +119,8 @@ $(document).ready(function () {
 
 });
 
+function getCurrentAdress(region,comuna) {
+	$('#regiones').val(region);
+	$('#comunas').val(comuna);
+}
+

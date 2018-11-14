@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.http import HttpResponse
-from .models import Usuario, Medicamento, MedicamentoUsuario
+from .models import Usuario, Medicamento, MedicamentoUsuario, TarjetaCredito
 from django.core import serializers
 from django.http import JsonResponse
 import json
@@ -22,7 +22,14 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required(login_url='/login/')
 def homePage(request):
-    return render(request, 'index.html')
+    # User attributes
+    rut = request.user.username
+    medicamentos_user_object = MedicamentoUsuario.objects.all().filter(rut=rut)
+    cantidad = len(medicamentos_user_object)
+    return render(request, 'index.html', 
+        {
+            'medicamentos_activos':cantidad
+        })
 
 @login_required(login_url='/login/')
 def contactPage(request):
@@ -30,11 +37,17 @@ def contactPage(request):
 
 @login_required(login_url='/login/')
 def accountPage(request):
-    return render(request, 'cuenta.html')
+    rut = request.user.username
+    user = Usuario.objects.all().filter(pk=rut)
+    card = TarjetaCredito.objects.all().filter(pk=rut)
+    return render(request, 'cuenta.html',  
+        {
+            'active_user':user,
+            'credit_card':card
+        })
+
 
 @login_required(login_url='/login/')
-
-
 def medsPage(request):
     rut = request.user.username
     medicamentos_user_object = MedicamentoUsuario.objects.all().filter(rut=rut)
@@ -55,7 +68,14 @@ def delete_meds(request, pk, template_name='meds_confirm_delete.html'):
     if request.method=='POST':
         med.delete()
         return redirect('/meds/')
-    return render(request, template_name, {'object':med})    
+    return render(request, template_name, {'object':med}) 
+
+def delete_card(request, pk, template_name='card_confirm_delete.html'):
+    card = get_object_or_404(TarjetaCredito, pk=pk)    
+    if request.method=='POST':
+        card.delete()
+        return redirect('/account/')
+    return render(request, template_name, {'object':card})    
 
 @login_required(login_url='/login/')
 def requestPage(request):
@@ -68,6 +88,39 @@ def loginPage(request):
 def registerPage(request):
     return render(request, 'register.html')
 
+@login_required(login_url='/login/')
+def card_edit(request):
+    try:
+        rut = request.user.username
+        card = TarjetaCredito.objects.get(pk = rut)
+        card.nombre = request.POST.get('cardname')
+        card.numero_tarjeta = request.POST.get('cardnumber')
+        card.banco = request.POST.get('cardbank')
+        card.mes = request.POST.get('cardmonth')
+        card.year = request.POST.get('cardyear')
+        card.clave_secreta = request.POST.get('cardpass')
+        card.save()
+        return HttpResponse('<script>alert("Los datos se han actualizado correctamente!"); window.location.href="/account/";</script>')
+    except Exception as ex:
+        return HttpResponse('<script>alert("Ha ocurrido un error, intenta nuevamente..."); window.location.href="/account/";</script>')
+
+
+def card_register(request):
+    try:
+        rut = request.user.username
+        nombre = request.POST.get('cardname')
+        numero_tarjeta = request.POST.get('cardnumber')
+        banco = request.POST.get('cardbank')
+        clave_secreta = request.POST.get('cardpass')
+        mes = request.POST.get('cardmonth')
+        year = request.POST.get('cardyear')
+        card = TarjetaCredito(rut=rut, nombre=nombre, numero_tarjeta=numero_tarjeta, banco=banco, mes=mes, year=year, clave_secreta=clave_secreta)
+        card.save()
+        return HttpResponse('<script>alert("Tarjeta registrada correctamente!"); window.location.href="/account/";</script>')
+    except Exception as ex:
+        return HttpResponse('<script>alert("'+str(ex)+'"); window.location.href="/account/";</script>')
+
+
 def createUser(request):
     try:
         email = request.POST.get('email')
@@ -79,15 +132,29 @@ def createUser(request):
         comuna = request.POST.get('comuna')
         password = request.POST.get('password')
         direccion = request.POST.get('direccion')
-        user = Usuario(email=email, rut=rut, nombre=name, fecha_nacimiento=born, numero_telefono=number, region=region, comuna=comuna, direccion=direccion, password=password)
-        user.save()
         userAuth = User.objects.create_user(rut, email=email, password=password)
         userAuth.save()
+        user = Usuario(email=email, rut=rut, nombre=name, fecha_nacimiento=born, numero_telefono=number, region=region, comuna=comuna, direccion=direccion, password=password)
+        user.save()
+        
         return HttpResponse('<script>alert("Usuario registrado correctamente!"); window.location.href="/login/";</script>')
 
     except Exception as ex:
         return HttpResponse('<script>alert("Se ha ingresado un valor incorrecto... Intenta nuevamente."); window.location.href="/register/";</script>')
 
+@login_required(login_url='/login/')
+def editUser(request):
+    try:
+        rut = request.user.username
+        user = Usuario.objects.get(pk = rut)
+        user.nombre = request.POST.get('name')
+        user.email = request.POST.get('email')
+        user.direccion = request.POST.get('adress')
+        user.numero_telefono = request.POST.get('phone')
+        user.save()
+        return HttpResponse('<script>alert("Los datos se han actualizado correctamente!"); window.location.href="/account/";</script>')
+    except Exception as ex:
+        return HttpResponse('<script>alert("Ha ocurrido un error, intenta nuevamente..."); window.location.href="/account/";</script>')
 
 @login_required(login_url='/login/')
 def cerrar_session(request):

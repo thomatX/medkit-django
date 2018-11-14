@@ -27,3 +27,12 @@ class MedicamentoUsuario(models.Model):
     med_id = models.CharField(max_length = 20)
     fecha_inicio = models.DateField()
     fecha_termino = models.DateField()
+
+class TarjetaCredito(models.Model):
+    rut = models.CharField(max_length = 20, primary_key=True)
+    nombre = models.CharField(max_length = 30)
+    numero_tarjeta = models.CharField(max_length = 30)
+    banco = models.CharField(max_length = 30)
+    mes = models.IntegerField()
+    year = models.IntegerField()
+    clave_secreta = models.IntegerField()

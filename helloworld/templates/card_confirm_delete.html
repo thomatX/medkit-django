@@ -49,6 +49,7 @@
                             <li>
                                 <a href="/account/" class="article">Mi cuenta</a>
                             </li>
+
                         </ul>
                     </nav>
         
@@ -85,50 +86,15 @@
                         </div>
                     </nav>
         
-                    <h2>Mis medicamentos</h2>
+                    <h2>Mi tarjeta</h2>
                     <div class="line"></div>
-                    <div class="container">
-                            <div class="row">
-                                        <button onclick="window.location.href='/request/'" type="button" class="btn btn-success" style="margin-bottom:5px;">
-                                                Solicitar medicamento&nbsp;<i class="fas fa-plus"></i>
-                                        </button></br>                      
-                            </div>
-                            <div class="row">
-                                    <table class="table">
-                                            <thead class="thead-light">
-                                              <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Nombre</th>
-                                                <th scope="col">Fecha Inicio</th>
-                                                <th scope="col">Fecha Termino</th>
-                                                <th scope="col">Contenido</th>
-                                                <th scope="col">Opciones</th>
-                                              </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for x in medicamentos_usuario %}
-                                                    <script>console.log('{{ x }}')</script>
-                                                    <tr>
-                                                            <td>{{ x.id }}</td>
-                                                            <td>{{ x.nombre }}</td>
-                                                            <td>{{ x.fecha_inicio }}</td>
-                                                            <td>{{ x.fecha_termino }}</td>
-                                                            <td>{{ x.contenido }}</td>
-                                                            <td>
-                                                                <a href="/delete/meds/{{x.pk}}"><i class="fas fa-trash-alt"></i></a>
-                                                            </td>
-                                                        </tr>
-                                                {% endfor %}
-                                            
-                                            </tbody>
-                                          </table>
-                            </div>
-                    </div>
-
         
-                    
-
-                          
+                    <form method="post">
+                            <p></p>
+                            {% csrf_token %}
+                            Estas seguro que quieres eliminar esta tarjeta?</br></br>
+                            <button type="submit" id="register-btn" class="btn btn-primary">Eliminar</button>
+                        </form>
 
                 </div>
             </div>
