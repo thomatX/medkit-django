@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^login/iniciar/$',views.login_iniciar,name="iniciar"),
     url(r'^register/createUser/$',views.createUser, name="Create User"),
     url(r'^cerrarsesion/$',views.cerrar_session,name="cerrar_session"),
+    url(r'^delete/meds/(?P<pk>\d+)/$',views.delete_meds,name="delete_meds"),
 
 ]

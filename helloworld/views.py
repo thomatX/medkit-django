@@ -41,14 +41,21 @@ def medsPage(request):
     meds_user = []
     for x in medicamentos_user_object:
         med = Medicamento.objects.get(id=x.med_id)
-        current = {"id":x.med_id,"nombre":med.nombre,"fecha_inicio":x.fecha_inicio,"fecha_termino":x.fecha_termino,"contenido":med.contenido}
+        current = {"pk":x.key_id,"id":x.med_id,"nombre":med.nombre,"fecha_inicio":x.fecha_inicio,"fecha_termino":x.fecha_termino,"contenido":med.contenido}
         print(current)
         meds_user.append(current)
     return render(request, 'medicamentos.html', 
         {
             "medicamentos_usuario":meds_user,
             "rut":rut
-        })    
+        })
+
+def delete_meds(request, pk, template_name='meds_confirm_delete.html'):
+    med = get_object_or_404(MedicamentoUsuario, pk=pk)    
+    if request.method=='POST':
+        med.delete()
+        return redirect('/meds/')
+    return render(request, template_name, {'object':med})    
 
 @login_required(login_url='/login/')
 def requestPage(request):

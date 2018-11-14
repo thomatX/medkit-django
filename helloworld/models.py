@@ -22,6 +22,7 @@ class Medicamento(models.Model):
     necesita_receta = models.BooleanField(default=False)
 
 class MedicamentoUsuario(models.Model):
+    key_id = models.IntegerField(primary_key = True)
     rut = models.CharField(max_length = 20)
     med_id = models.CharField(max_length = 20)
     fecha_inicio = models.DateField()
