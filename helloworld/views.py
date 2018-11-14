@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.http import HttpResponse
-from .models import Usuario
+from .models import Usuario, Medicamento, MedicamentoUsuario
 from django.core import serializers
 from django.http import JsonResponse
 import json
@@ -33,8 +33,22 @@ def accountPage(request):
     return render(request, 'cuenta.html')
 
 @login_required(login_url='/login/')
+
+
 def medsPage(request):
-    return render(request, 'medicamentos.html')
+    rut = request.user.username
+    medicamentos_user_object = MedicamentoUsuario.objects.all().filter(rut=rut)
+    meds_user = []
+    for x in medicamentos_user_object:
+        med = Medicamento.objects.get(id=x.med_id)
+        current = {"id":x.med_id,"nombre":med.nombre,"fecha_inicio":x.fecha_inicio,"fecha_termino":x.fecha_termino,"contenido":med.contenido}
+        print(current)
+        meds_user.append(current)
+    return render(request, 'medicamentos.html', 
+        {
+            "medicamentos_usuario":meds_user,
+            "rut":rut
+        })    
 
 @login_required(login_url='/login/')
 def requestPage(request):

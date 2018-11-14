@@ -85,10 +85,10 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql',
-        'NAME': 'cpbkmquq',
-        'USER': 'cpbkmquq',
-        'PASSWORD': 'sOLWUHqjud1MKsHRXwAKp3AbzYDic03R',
-        'HOST': 'elmer.db.elephantsql.com',
+        'NAME': 'trroalgn',
+        'USER': 'trroalgn',
+        'PASSWORD': 'zSUHOjUpTMOalgDL3gc2o8W7PECwvd5B',
+        'HOST': 'pellefant.db.elephantsql.com',
         'PORT': '5432',
     }
 }

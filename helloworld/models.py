@@ -14,3 +14,15 @@ class Usuario(models.Model):
     region = models.CharField(max_length = 60)
     comuna = models.CharField(max_length = 60)
     password = models.CharField(max_length = 30)
+
+class Medicamento(models.Model):
+    id = models.CharField(max_length = 10, primary_key=True)
+    nombre = models.CharField(max_length = 40)
+    contenido = models.CharField(max_length = 10)
+    necesita_receta = models.BooleanField(default=False)
+
+class MedicamentoUsuario(models.Model):
+    rut = models.CharField(max_length = 20)
+    med_id = models.CharField(max_length = 20)
+    fecha_inicio = models.DateField()
+    fecha_termino = models.DateField()

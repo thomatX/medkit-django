@@ -92,56 +92,58 @@
                     <div class="line"></div>
         
                     <table class="table">
-                            <thead class="thead-light">
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Fecha Inicio</th>
-                                <th scope="col">Fecha Termino</th>
-                                <th scope="col">Receta</th>
-                                <th scope="col">Seleccionar</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <th scope="row">1</th>
-                                <td>Paracetamol</td>
-                                <td>08-10-2018</td>
-                                <td>28-10-2018</td>
-                                <td>Sí</td>
-                                <td><input class="form-check-input" type="checkbox" id="listCheck"></td>
-                              </tr>
-                              <tr>
-                                <th scope="row">2</th>
-                                <td>Ibuprofeno</td>
-                                <td>07-11-2018</td>
-                                <td>14-12-2018</td>
-                                <td>No</td>
-                                <td><input class="form-check-input" type="checkbox" id="listCheck"></td>
-                              </tr>
-                              <tr>
-                                <th scope="row">3</th>
-                                <td>Trioval</td>
-                                <td>09-10-2018</td>
-                                <td>12-03-2019</td>
-                                <td>Sí</td>
-                                <td><input class="form-check-input" type="checkbox" id="listCheck"></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <div class="row">
-                                <div class="form-group col-md-3">
-                                        <label for="regiones">Elementos seleccionados</label>
-                                        <select disabled id="action" class="form-control">
-                                                <option>Cancelar</option>
-                                                <option>Finalizar</option>
-                                                <option>Modificar</option>
-                                                <option>Desactivar</option>
-                                        </select>
-                                  </div>
-                                  <button type="submit" class="btn btn-primary">Aceptar</button>
+                        <thead class="thead-light">
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Fecha Inicio</th>
+                            <th scope="col">Fecha Termino</th>
+                            <th scope="col">Contenido</th>
+                            <th scope="col">Opciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for x in medicamentos_usuario %}
+                                <script>console.log('{{ x }}')</script>
+                                <tr>
+                                        <td>{{ x.id }}</td>
+                                        <td>{{ x.nombre }}</td>
+                                        <td>{{ x.fecha_inicio }}</td>
+                                        <td>{{ x.fecha_termino }}</td>
+                                        <td>{{ x.contenido }}</td>
+                                        <td>
+                                            <a href="#"><i class="fas fa-pencil-alt"></i></a>&nbsp<a href="/delete/dogs/{{x.pk}}"><i class="fas fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                            {% endfor %}
+                            <!--
+                        {% for x in medicamentos_usuario %}
+                        {% for y in medicamentos_nombre %}
+                        {% for z in medicamentos_contenido %}
+                            <script>console.log('{{ x.fields }}')</script>
+                            <script>console.log('{{ y }}')</script>
+                            <script>console.log('{{ z }}')</script>
+                            <script>console.log('{{ rut }}')</script>
+                            
+                        <tr>
+                            <td>{{ x.fields.med_id }}</td>
+                            <td>{{ y }}</td>
+                            <td>{{ x.fields.fecha_inicio }}</td>
+                            <td>{{ x.fields.fecha_termino }}</td>
+                            <td>{{ z }}</td>
+                            <td>
+                                <a href="#"><i class="fas fa-pencil-alt"></i></a>&nbsp<a href="/delete/dogs/{{x.pk}}"><i class="fas fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% endfor %}
+                        {% endfor %}
 
-                          </div>
+                            -->
+                        
+                        </tbody>
+                      </table>
+
                           <div class="line"></div>
                                 <h2>Historial</h2>
                                 <div class="line"></div>
