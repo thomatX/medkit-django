@@ -27,6 +27,8 @@ class MedicamentoUsuario(models.Model):
     med_id = models.CharField(max_length = 20)
     fecha_inicio = models.DateField()
     fecha_termino = models.DateField()
+    cantidad = models.IntegerField(default=1)
+    pay_method = models.CharField(max_length = 20, default="Efectivo")
 
 class TarjetaCredito(models.Model):
     rut = models.CharField(max_length = 20, primary_key=True)

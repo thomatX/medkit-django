@@ -99,9 +99,11 @@
                                               <tr>
                                                 <th scope="col">#</th>
                                                 <th scope="col">Nombre</th>
+                                                <th scope="col">Cantidad</th>
                                                 <th scope="col">Fecha Inicio</th>
                                                 <th scope="col">Fecha Termino</th>
                                                 <th scope="col">Contenido</th>
+                                                <th scope="col">Pago</th>
                                                 <th scope="col">Opciones</th>
                                               </tr>
                                             </thead>
@@ -111,9 +113,11 @@
                                                     <tr>
                                                             <td>{{ x.id }}</td>
                                                             <td>{{ x.nombre }}</td>
+                                                            <td>{{ x.cantidad }}</td>
                                                             <td>{{ x.fecha_inicio }}</td>
                                                             <td>{{ x.fecha_termino }}</td>
                                                             <td>{{ x.contenido }}</td>
+                                                            <td>{{ x.metodo_pago }}</td>
                                                             <td>
                                                                 <a href="/delete/meds/{{x.pk}}"><i class="fas fa-trash-alt"></i></a>
                                                             </td>

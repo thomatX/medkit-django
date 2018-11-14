@@ -88,47 +88,51 @@
                     <h2>Solicita un medicamento llenando el formulario</h2>
                     <div class="line"></div>
                     <div class="col-md-6">
-                            <form>
-                                    <div class="form-row">
-                                      <div class="form-group col-md-6">
-                                        <label for="inputName">Nombre</label>
-                                        <input type="text" class="form-control" id="inputName" placeholder="Nombre">
-                                      </div>
-                                      <div class="form-group col-md-6">
-                                        <label for="inputEmail">Email</label>
-                                        <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                                      </div>
+                            <form action="/register/userMed/" method="POST">
+                                {% csrf_token %}
+                                <script>console.log('{{ x }}')</script>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label for="medName">Seleccione medicamento</label>
+                                        <select class="form-control" name="medname" id="medName">
+                                            {% for x in medicamentos %}
+                                            <option value="{{x.id}}">{{x.nombre}}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
-                                    <div class="form-group">
-                                      <label for="inputAddress">Dirección</label>
-                                      <input type="text" class="form-control" id="inputAddress" placeholder="1234 Calle">
+                                    <div class="col">
+                                        <label for="quantity">Cantidad</label>
+                                        <input type="number" name="quantity" id="quantity" class="form-control" value="1" required></select>
                                     </div>
+                                </div>
                                     <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label for="regiones">Región</label>
-                                            <select id="regiones" class="form-control">
-                                            </select>
+                                        <div class="col">
+                                            <label for="born">Inicio despacho</label>
+                                            <input type="date" name="start" id="start" class="form-control" required>
                                         </div>
-                                      <div class="form-group col-md-6">
-                                            <label for="regiones">Comuna</label>
-                                            <select id="comunas" class="form-control">
+                                        <div class="col">
+                                            <label for="born">Inicio despacho</label>
+                                            <input type="date" name="end" id="end" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label for="born">Inicio despacho</label>
+                                            <select class="form-control" name="payMethod" id="payMethod">
+                                                <option>Efectivo</option>
+                                                {% if credit_card %}
+                                                    {% for z in credit_card %}
+                                                <option>Tarjeta crédito ({{ z.numero_tarjeta }})</option>
+                                                    {% endfor %}
+                                                {% endif %}
                                             </select>
-                                      </div>
-                        
-                                    </div>
-                                    <div class="form-group" id="recipe" style="display:none;">
-                                        <label for="inputRecipe">Ingrese receta médica</label>
-                                        <input type="file" class="form-control" id="inputRecipe">
-                                    </div>
-                                    <div class="form-group">
-                                      <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="gridCheck">
-                                        <label class="form-check-label" for="gridCheck">
-                                          Necesita receta médica
-                                        </label>
-                                      </div>
-                                    </div>
+                                            {% if not credit_card %}
+                                            <p>* Para utilizar tarjeta de crédito es necesario tener una registrada en tu cuenta. <a href="/account/"><strong>Añadir tarjeta</strong></a></p>
+                                            {% endif %}
+                                        </div>
+                                    </div> </br>
                                     <button type="submit" class="btn btn-primary">Solicitar</button>
+                                    
                                   </form>
                     </div>
                     
@@ -149,7 +153,13 @@
                     $('#sidebarCollapse').on('click', function () {
                         $('#sidebar').toggleClass('active');
                     });
-                    
+                    /*
+                    $('#medName').change(function() {
+                        var val = $(this).val();
+                        var name = $(this).text();
+                        alert(val+" "+name);
+                    })
+                    */
                 });
             </script>
 </body>

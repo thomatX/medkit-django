@@ -26,7 +26,6 @@ function validateCard() {
     var password = $('#cardPass').val();
     var month = $('#cardMonth').val();
     var year = $('#cardYear').val();
-    alert(number);
     if(name == "" || number == "" || password == "" || month == "" || year == "") {
         alert("Por favor ingresa todos los campos");
         return false;

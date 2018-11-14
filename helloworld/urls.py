@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^login/iniciar/$',views.login_iniciar,name="iniciar"),
     url(r'^register/createUser/$',views.createUser, name="create_user"),
     url(r'^register/editUser/$',views.editUser, name="edit_user"),
+    url(r'^register/userMed/$',views.user_med_register, name="register_user_med"),
     url(r'^register/creditCard/$',views.card_register, name="credit_card_register"),
     url(r'^register/editCard/$',views.card_edit, name="credit_card_edit"),
     url(r'^cerrarsesion/$',views.cerrar_session,name="cerrar_session"),

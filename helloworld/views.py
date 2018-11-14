@@ -54,7 +54,7 @@ def medsPage(request):
     meds_user = []
     for x in medicamentos_user_object:
         med = Medicamento.objects.get(id=x.med_id)
-        current = {"pk":x.key_id,"id":x.med_id,"nombre":med.nombre,"fecha_inicio":x.fecha_inicio,"fecha_termino":x.fecha_termino,"contenido":med.contenido}
+        current = {"pk":x.key_id,"id":x.med_id,"nombre":med.nombre,"cantidad":x.cantidad,"fecha_inicio":x.fecha_inicio,"fecha_termino":x.fecha_termino,"contenido":med.contenido,"metodo_pago":x.pay_method}
         print(current)
         meds_user.append(current)
     return render(request, 'medicamentos.html', 
@@ -79,7 +79,10 @@ def delete_card(request, pk, template_name='card_confirm_delete.html'):
 
 @login_required(login_url='/login/')
 def requestPage(request):
-    return render(request, 'solicitud.html')
+    meds = Medicamento.objects.all()
+    rut = request.user.username
+    card = TarjetaCredito.objects.all().filter(pk=rut)
+    return render(request, 'solicitud.html', {"medicamentos":meds,"credit_card":card})
     
     
 def loginPage(request):
@@ -105,6 +108,30 @@ def card_edit(request):
         return HttpResponse('<script>alert("Ha ocurrido un error, intenta nuevamente..."); window.location.href="/account/";</script>')
 
 
+@login_required(login_url='/login/')
+def user_med_register(request):
+    try:
+
+        user_meds = MedicamentoUsuario.objects.all()
+        cantidad = len(user_meds)
+
+        med_id = request.POST.get('medname')
+        medicamento = Medicamento.objects.get(id=med_id)
+
+        key_id = cantidad+1
+        rut = request.user.username
+        fecha_inicio = request.POST.get('start')
+        fecha_termino = request.POST.get('end')
+        cantidad = request.POST.get('quantity')
+        metodo_pago = request.POST.get('payMethod')
+        med_usuario = MedicamentoUsuario(key_id=key_id, rut=rut, med_id=med_id, cantidad=cantidad, pay_method=metodo_pago, fecha_inicio=fecha_inicio,fecha_termino=fecha_termino)
+        med_usuario.save()
+        return HttpResponse('<script>alert("Medicamento registrado correctamente!"); window.location.href="/meds/";</script>')
+    except Exception as ex:
+        return HttpResponse('<script>alert("Ha ocurrido un error, intenta nuevamente..."); window.location.href="/request/";</script>')
+
+
+@login_required(login_url='/login/')
 def card_register(request):
     try:
         rut = request.user.username
@@ -118,7 +145,7 @@ def card_register(request):
         card.save()
         return HttpResponse('<script>alert("Tarjeta registrada correctamente!"); window.location.href="/account/";</script>')
     except Exception as ex:
-        return HttpResponse('<script>alert("'+str(ex)+'"); window.location.href="/account/";</script>')
+        return HttpResponse('<script>alert("Ha ocurrido un error, intenta nuevamente..."); window.location.href="/account/";</script>')
 
 
 def createUser(request):
